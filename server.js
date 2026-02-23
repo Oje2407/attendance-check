@@ -19,6 +19,15 @@ const XLSX_PATH =
 const EMAIL_COL_NAME = process.env.EMAIL_COL_NAME || "Email Address";
 const ATTENDANCE_COL = process.env.ATTENDANCE_COL || "Attendance";
 const ATTENDANCE_TIME_COL = process.env.ATTENDANCE_TIME_COL || "Attendance Time";
+const PASSCODE = process.env.PASSCODE || "CHANGE_ME_PASSCODE";
+
+function requirePasscodeFromQuery(req, res, next) {
+  const pass = (req.query?.p || "").toString().trim();
+  if (!pass || pass !== PASSCODE) {
+    return res.status(403).send("Forbidden");
+  }
+  next();
+}
 
 // ✅ Passcode (Render + B)
 const PASSCODE = process.env.PASSCODE || "CHANGE_ME_PASSCODE";
@@ -149,4 +158,5 @@ app.post("/api/check", requirePasscode, (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 

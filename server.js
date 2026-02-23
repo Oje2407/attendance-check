@@ -35,6 +35,13 @@ function requirePasscode(req, res, next) {
   if (!pass || pass !== PASSCODE) {
     return res.status(403).send("Forbidden");
   }
+    function requirePasscodeFromQuery(req, res, next) {
+  const pass = (req.query?.p || "").toString().trim();
+  if (!pass || pass !== PASSCODE) {
+    return res.status(403).send("Forbidden");
+  }
+  next();
+}
   next();
 }
   const pass =
@@ -142,3 +149,4 @@ app.post("/api/check", requirePasscode, (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

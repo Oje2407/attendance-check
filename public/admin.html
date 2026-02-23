@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin – Download Attendance</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; background:#f4f4f4; }
+    .container { background:#fff; padding:30px; max-width:520px; margin:auto; box-shadow:0 0 10px rgba(0,0,0,.1); }
+    input { width:100%; padding:12px; font-size:1rem; margin:10px 0; }
+    button { padding:10px 16px; font-size:1rem; background:#007bff; color:#fff; border:0; cursor:pointer; }
+    #msg { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin – Download Attendance File</h2>
+    <p>Enter the admin passcode to download the latest Registration.xlsx from the server.</p>
+
+    <input type="password" id="passcode" placeholder="Passcode" />
+    <button id="downloadBtn" type="button">Download Excel</button>
+
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    const passEl = document.getElementById("passcode");
+    const msg = document.getElementById("msg");
+    const btn = document.getElementById("downloadBtn");
+
+    btn.addEventListener("click", () => {
+      const p = (passEl.value || "").trim();
+      if (!p) {
+        msg.textContent = "Please enter passcode.";
+        msg.style.color = "red";
+        return;
+      }
+      msg.textContent = "Preparing download…";
+      msg.style.color = "black";
+
+      // Download link with passcode query param
+      window.location.href = `/admin/download?p=${encodeURIComponent(p)}`;
+    });
+  </script>
+</body>
+</html>

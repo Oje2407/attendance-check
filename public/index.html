@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Confirm Your Registration</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 40px; background:#f4f4f4; }
+    .container { background:#fff; padding:30px; max-width:520px; margin:auto; box-shadow:0 0 10px rgba(0,0,0,.1); }
+    input { width:100%; padding:12px; font-size:1rem; margin:10px 0; }
+    button { padding:10px 16px; font-size:1rem; background:#007bff; color:#fff; border:0; cursor:pointer; }
+    #result { margin-top:15px; font-weight:bold; }
+    .hint { font-size: 0.95rem; color: #444; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Confirm Your Registration</h2>
+    <p class="hint">Enter the event passcode, then the email address you registered with.</p>
+
+    <input type="password" id="passcodeInput" placeholder="Event passcode" autocomplete="off" />
+    <input type="email" id="emailInput" placeholder="Registered email address" required />
+
+    <button id="submitBtn" type="button">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

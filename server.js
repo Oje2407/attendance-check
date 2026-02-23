@@ -29,30 +29,10 @@ function requirePasscodeFromQuery(req, res, next) {
   next();
 }
 
-// ✅ Passcode (Render + B)
-const PASSCODE = process.env.PASSCODE || "CHANGE_ME_PASSCODE";
-
 function normalizeEmail(v) {
   return String(v || "").trim().toLowerCase();
 }
 
-// ✅ Passcode enforcement (server-side)
-function requirePasscode(req, res, next) {
-  // allow passcode via header or JSON body
-  function requirePasscodeFromQuery(req, res, next) {
-  const pass = (req.query?.p || "").toString().trim();
-  if (!pass || pass !== PASSCODE) {
-    return res.status(403).send("Forbidden");
-  }
-    function requirePasscodeFromQuery(req, res, next) {
-  const pass = (req.query?.p || "").toString().trim();
-  if (!pass || pass !== PASSCODE) {
-    return res.status(403).send("Forbidden");
-  }
-  next();
-}
-  next();
-}
   const pass =
     (req.headers["x-passcode"] || "").toString().trim() ||
     (req.body?.passcode || "").toString().trim();
@@ -158,5 +138,6 @@ app.post("/api/check", requirePasscode, (req, res) => {
 
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
 

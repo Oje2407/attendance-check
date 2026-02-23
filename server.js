@@ -30,6 +30,13 @@ function normalizeEmail(v) {
 // ✅ Passcode enforcement (server-side)
 function requirePasscode(req, res, next) {
   // allow passcode via header or JSON body
+  function requirePasscodeFromQuery(req, res, next) {
+  const pass = (req.query?.p || "").toString().trim();
+  if (!pass || pass !== PASSCODE) {
+    return res.status(403).send("Forbidden");
+  }
+  next();
+}
   const pass =
     (req.headers["x-passcode"] || "").toString().trim() ||
     (req.body?.passcode || "").toString().trim();
@@ -59,6 +66,16 @@ ensureWorkbookExists();
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+// Admin page (simple)
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "admin.html"));
+});
+
+// Download updated workbook (protected)
+app.get("/admin/download", requirePasscodeFromQuery, (req, res) => {
+  if (!fs.existsSync(XLSX_PATH)) return res.status(404).send("File not found.");
+  res.download(XLSX_PATH, "Registration.xlsx");
 });
 
 // ✅ Passcode required for attendance check + write-back
@@ -122,5 +139,6 @@ app.post("/api/check", requirePasscode, (req, res) => {
       : "✅ Registration confirmed and attendance recorded."
   });
 });
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
